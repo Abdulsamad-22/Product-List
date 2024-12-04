@@ -162,7 +162,7 @@ function cartCounter(button, productId) {
     button.classList.add('new-button');
 
     // Disable interaction on the entire button
-    //button.style.pointerEvents = 'none'; // Prevent all interaction
+    button.style.pointerEvents = 'none'; // Prevent all interaction
     button.style.position = 'absolute'; // Needed to adjust child elements
 
     // Create minus icon
