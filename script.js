@@ -1,5 +1,5 @@
 import { cart, displayEmptyCart, addToCart } from "./cart.js";
-//import { removeFromCart } from "./cart.js";
+//import { startNewOrder } from "./cart.js";
 import { products } from "./Scripts/Utilities/data/product.js";
 import { saveToStorage } from "./cart.js";
 import {formartCurrency} from "./Scripts/Utilities/money.js";
@@ -10,7 +10,7 @@ products.forEach(product => {
     productHtml += `
         <div class="product-container">
                 <div class="image-container">
-                <img class="product-image" src="${product.image.desktop}">
+                <img class="product-image" src="${product.image.desktop}"  data-product-id="${product.id}">
     
                 <button class="add-to-cart-btn" data-product-id="${product.id}">
                     <img class="cart-icon" src="assets/images/icon-add-to-cart.svg" alt="cart icon">Add to Cart
@@ -51,6 +51,20 @@ export function updateNumber() {
 
 const cartButton = document.querySelectorAll('.add-to-cart-btn');
 
+function activeItem(productId, quantity) {
+    const imageContainer = document.querySelector(`.product-image[data-product-id="${productId}"]`);
+    
+    if (imageContainer) {
+        if (quantity > 0) {
+            // Add stroke if quantity is greater than 0
+            imageContainer.classList.add('active');
+        } else {
+            // Remove stroke if quantity is 0 or item is removed
+            imageContainer.classList.remove('active');
+        }
+    }
+}
+
 cartButton.forEach((button) => {
     button.addEventListener('click', () => {
         const productId = button.dataset.productId;
@@ -64,7 +78,6 @@ cartButton.forEach((button) => {
 });
 
 
-//console.log(productId);
 export function updateCart() {
 
     let cartSummaryHtml = '';
@@ -113,7 +126,6 @@ export function updateCart() {
                     <hr class="divider">
                 </div>
                 `;
-                //const cartButtonContainer = document.querySelector('.total-container'); // The container where the items are appended
         }
     });
 
@@ -128,7 +140,7 @@ export function updateCart() {
 
                 const orderTotalHtml = `
                     <div class="total-order">
-                        <p>Order Total</p>
+                        <p class="order-label">Order Total</p>
                         <p class="cart-total">$0.00</p>
                     </div>
                     <div class="carbon-neutral-container">
@@ -177,6 +189,7 @@ function cartCounter(button, productId) {
     // Create cart count display
     const cartCountDisplay = document.createElement('span');
     cartCountDisplay.classList.add('cart');
+
     
     // Set initial count to 1 if this is the first click
     const isFirstClick = button.querySelector('img') || button.innerText === 'Add to Cart';
@@ -186,9 +199,12 @@ function cartCounter(button, productId) {
         const newItem = { productId, quantity: 1 };
         cart.push(newItem);
         cartCountDisplay.innerText = 1;
+
+       activeItem(productId, 1);
         updatePriceCartGrid(productId, 1);
     } else {
         cartCountDisplay.innerText = currentItem ? currentItem.quantity : 0;
+        activeItem(productId, currentItem ? currentItem.quantity : 0);
     }
 
     // Create plus icon
@@ -209,6 +225,7 @@ function cartCounter(button, productId) {
     minusImg.style.pointerEvents = 'auto';
     plusImg.style.pointerEvents = 'auto';
 
+
     // Function to update price-cart-grid for specific item
     function updatePriceCartGrid(productId, quantity) {
         const matchingProduct = products.find(product => product.id === productId);
@@ -223,7 +240,7 @@ function cartCounter(button, productId) {
                 quantityElement.textContent = `${quantity}x`;
             }
             if (totalPriceElement) {
-                const newTotal = ((matchingProduct.priceCents * quantity) / 100).toFixed(2);
+                const newTotal = `${formartCurrency(matchingProduct.priceCents * quantity)}`;
                 totalPriceElement.textContent = `$${newTotal}`;
             }
         }
@@ -243,6 +260,7 @@ function cartCounter(button, productId) {
 
         currentItem.quantity += 1;
         cartCountDisplay.innerText = currentItem.quantity;
+        activeItem(productId, currentItem.quantity);
         updatePriceCartGrid(productId, currentItem.quantity);
         
         saveToStorage();
@@ -257,6 +275,7 @@ function cartCounter(button, productId) {
         if (currentItem && currentItem.quantity > 0) {
             currentItem.quantity -= 1;
             cartCountDisplay.innerText = currentItem.quantity;
+            activeItem(productId, currentItem.quantity);
             updatePriceCartGrid(productId, currentItem.quantity);
 
             if (currentItem.quantity === 0) {
@@ -274,7 +293,7 @@ function cartCounter(button, productId) {
                 resetButton(button);
             }
 
-            saveToStorage();
+            //saveToStorage();
             updateNumber();
             displayEmptyCart();
         }
@@ -310,23 +329,16 @@ function removeFromCart(productId) {
             container.remove();
         }
 
-        // After removing i want to be able to add immediately
-
         // Reset button to original state
         const button = document.querySelector(`.add-to-cart-btn[data-product-id="${productId}"]`);
         if (button) {
             resetButton(button);
-            /*button.innerHTML = '';
-            button.classList.remove('new-button');
-            const img = document.createElement('img');
-            img.src = 'assets/images/icon-add-to-cart.svg';
-            img.classList.add('cart-icon');
-            button.appendChild(img);
-            button.appendChild(document.createTextNode('Add to Cart'));*/
+            button.style.pointerEvents = 'auto';
         }
 
         // Update the total cart sum
         updateCartTotalSum();
+        activeItem(productId,  0);
 
         // Display empty cart HTML if cart is now empty
         displayEmptyCart();
@@ -496,15 +508,12 @@ function startNewOrder() {
 
     // Reset all "Add to Cart" buttons
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-        button.innerHTML = '';
-        button.classList.remove('new-button');
+        resetButton(button);
+        button.style.pointerEvents = 'auto';
+    });
 
-        // Recreate the button content
-        const img = document.createElement('img');
-        img.src = 'assets/images/icon-add-to-cart.svg';
-        img.classList.add('cart-icon');
-        button.appendChild(img);
-        button.appendChild(document.createTextNode('Add to Cart'));
+    document.querySelectorAll('.product-image').forEach(container => {
+        container.classList.remove('active');
     });
 
     const orderCard = document.querySelector('.confirmed-order-container');
@@ -514,141 +523,28 @@ function startNewOrder() {
 
     // Display the empty cart
     displayEmptyCart();
-    updateNumber();  
+    updateNumber();
 }
 
 
-/*function cartCounter(button, productId) {
-    button.innerHTML = '';
-    button.classList.add('new-button');
+function updateProductImages() {
+    const screenWidth = window.innerWidth;
 
-    //button.style.pointerEvents = 'none'; // Prevent all interaction
-    button.style.position = 'absolute';
+    products.forEach(product => {
+        const imageElement = document.querySelector(`product-image[data-product-id="${product.id}"]`);
 
-    // Create minus icon
-    const minusIcon = document.createElement('span');
-    minusIcon.classList.add('icon');
-    const minusImg = document.createElement('img');
-    minusImg.src = 'assets/images/icon-decrement-quantity.svg';
-    minusImg.alt = 'Minus icon';
-    minusImg.classList.add('minus-icon-image');
+        if (!imageElement) return;
 
-    // Create cart count display
-    const cartCountDisplay = document.createElement('span');
-    cartCountDisplay.classList.add('cart');
-    
-    // Set initial count to 1 if this is the first click
-    const isFirstClick = button.querySelector('img') || button.innerText === 'Add to Cart';
-    const currentItem = cart.find(item => item.productId === productId);
-    
-    if (isFirstClick) {
-        const newItem = { productId, quantity: 1 };
-        cart.push(newItem);
-        cartCountDisplay.innerText = 1;
-        updatePriceCartGrid(productId, 1);
-    } else {
-        cartCountDisplay.innerText = currentItem ? currentItem.quantity : 0;
-    }
-
-    // Create plus icon
-    const plusIcon = document.createElement('span');
-    plusIcon.classList.add('icon');
-    const plusImg = document.createElement('img');
-    plusImg.src = 'assets/images/icon-increment-quantity.svg';
-    plusImg.alt = 'Plus icon';
-    plusImg.classList.add('plus-icon-image');
-
-
-    function findCartItemElements(productId) {
-        // Find the container with the matching product ID
-        const priceCartGrid = document.querySelector(`.price-cart-grid[data-product-id="${productId}"]`);
-        
-        // Safely find the elements within the specific container
-        const quantityElement = priceCartGrid ? priceCartGrid.querySelector('.product-quantity') : null;
-        const totalPriceElement = priceCartGrid ? priceCartGrid.querySelector('.product-total-price') : null;
-    
-        return { quantityElement, totalPriceElement };
-    }
-    
-
-    // Function to update price-cart-grid for specific item
-    function updatePriceCartGrid(productId, quantity) {
-        const matchingProduct = products.find(product => product.id === productId);
-        if (!matchingProduct) return;
-
-        const { quantityElement, totalPriceElement } = findCartItemElements(productId);
-
-        if (quantityElement) {
-            quantityElement.textContent = `${quantity}x`;
-        }
-        
-        if (totalPriceElement) {
-            const newTotal = ((matchingProduct.priceCents * quantity) / 100).toFixed(2);
-            totalPriceElement.textContent = `$${newTotal}`;
-        }
-
-        updateCartTotalSum();
-    }
-
-    // Plus button click handler
-    plusImg.addEventListener('click', (e) => {
-        e.stopPropagation();
-        let currentItem = cart.find(item => item.productId === productId);
-        
-        if (!currentItem) {
-            currentItem = { productId, quantity: 0 };
-            cart.push(currentItem);
-        }
-
-        currentItem.quantity += 1;
-        cartCountDisplay.innerText = currentItem.quantity;
-        updatePriceCartGrid(productId, currentItem.quantity);
-        
-        saveToStorage();
-        updateNumber();
-    });
-
-    // Minus button click handler
-    minusImg.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const currentItem = cart.find(item => item.productId === productId);
-        
-        if (currentItem && currentItem.quantity > 0) {
-            currentItem.quantity -= 1;
-            cartCountDisplay.innerText = currentItem.quantity;
-            updatePriceCartGrid(productId, currentItem.quantity);
-
-            if (currentItem.quantity === 0) {
-                // Remove item from cart
-                const itemIndex = cart.findIndex(item => item.productId === productId);
-                if (itemIndex > -1) {
-                    cart.splice(itemIndex, 1);
-                }
-
-                const container = document.querySelector(`.js-product-info-divider-${productId}`);
-                if (container) {
-                    container.remove();
-                }
-
-                
-                // Reset button to original state
-                button.innerHTML = '';
-                button.classList.remove('new-button');
-                const img = document.createElement('img');
-                img.src = 'assets/images/icon-add-to-cart.svg';
-                img.classList.add('cart-icon');
-                button.appendChild(img);
-                button.appendChild(document.createTextNode('Add to Cart'));
-            }
-
-            saveToStorage();
-            updateNumber();
-            displayEmptyCart();
+        if (screenWidth <= 480) {
+            imageElement.src = product.image.mobile;
+        } else if (screenWidth <= 768) {
+            imageElement.src = product.image.tablet;
+        } else {
+            imageElement.src = product.image.desktop;
         }
     });
+}
 
-    // Append all elements to button
-    button.appendChild(minusImg);
-    button.appendChild(cartCountDisplay);
-    button.appendChild(plusImg);
-}*/
+
+window.addEventListener('resize', updateProductImages);
+
