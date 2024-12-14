@@ -4,7 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@300..700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" type="text/css" href="styles/style.css">
+
   <link rel="stylesheet" type="text/css" href="styles/cart.css">
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
@@ -15,12 +20,13 @@
 <body>
 
   <main>
+    <div class="overlay"></div>
 
     <div class="products-cart-page">
       <div class="products-page">
-        <h2>
+        <h1>
           Desserts
-        </h2>
+        </h1>
   
         <div class="products-grid js-products-grid"></div>
   
@@ -31,64 +37,18 @@
           <h2 class="cart-number">
             Your Cart(0)
           </h2>
-    
           
-
-          <div class="total-container">
-            <div class="order-summary"></div>
-            
-          </div>
-          
+          <div class="total-container"></div>
         </div>
-        <!--
-        <h2 class="cart-number">
-          Your Cart(0)
-        </h2>
-
-        <div class="empty-cart-container">
-          <div>
-            <img class="empty-cart-image" src="assets/images/illustration-empty-cart.svg" alt="empty cart image">
-          </div>
-    
-          <p>
-            Your added items will appear here
-          </p>
-        </div>
-        -->
       </div>
     </div>
 
-    <!--<div class="cart-item-page">
-      <h2 class="cart-number">
-        Your Cart(0)
-      </h2>
-
-      <div class="order-summary"></div>
-
-      <div class="total-order">
-        <p>
-          Order Total
-        </p>
-
-          <p class="cart-total">
-            $0.00
-          </p>
-      </div>
-
-      <div class="carbon-neutral-container">
-        <img src="assets/images/icon-carbon-neutral.svg"alt="">
-        <p>
-          This is a <strong>carbon-neutral</strong> delivery
-        </p>
-      </div>
-
-      <button class="confirm-cta">
-        Confirm Order
-      </button>
-      
-    </div>-->
-
   </main>
+
+  <!--<div class="test">
+    <img src="assets/images/image-brownie-mobile.jpg">
+    <p>an image</p>
+  </div>-->
 
   <!--
   <div class="attribution">
