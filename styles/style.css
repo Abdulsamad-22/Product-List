@@ -1,0 +1,246 @@
+body{
+    font-family: "Red Hat Text", serif;
+    position: relative;
+    background-color: hsl(13, 31%, 94%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.5rem 4rem;
+    box-sizing: border-box;
+}
+
+@media (max-width: 37.5rem) {
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 24px;
+    }
+}
+
+body p{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.products-page h1{
+    font-size: 2.5rem;
+    color: hsl(14, 65%, 9%);
+}
+
+@media (max-width: 37.5rem) {
+    .products-page h1{
+        font-size: 2.5rem;
+        margin-bottom: 2.5rem;
+    } 
+}
+
+.products-cart-page{
+    display: flex;
+    flex-direction: row;
+    gap: 2.5rem;
+}
+
+@media (max-width: 600px) {
+    .products-cart-page{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /*padding: 0rem 1rem;
+        display: grid;
+        grid-template-columns: 23.4375rem;
+        background-color: pink;*/
+    }
+}
+
+.products-grid{
+    display: grid;
+    grid-template-columns: 15.625rem 15.625rem 15.625rem;
+    column-gap: 1.125rem;
+    row-gap: 1.125rem;
+}
+
+@media (max-width: 600px) {
+    .products-grid{
+        /*display: flex;
+        flex-direction: column;
+        min-width: 100%;*/
+        display: grid;
+        grid-template-columns: 332px;
+        /* 380px formerly*/
+    }
+}
+
+.product-container{
+    max-width: 250px;
+    padding: 0.75rem;
+}
+
+@media (max-width: 37.5rem) {
+    .product-container{
+        min-width: 332px;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+}
+
+.image-container{
+    display: grid;
+    grid-template-columns: 15.625rem;
+    position: relative;
+    margin-bottom: 1.125rem;
+}
+
+@media (max-width: 600px) {
+    .image-container{
+        min-width: 100%;
+    }
+}
+
+.product-image{
+    border-radius: 8px;
+    max-width: 15.625rem;
+}
+
+@media (max-width: 600px) {
+    .product-image{
+        min-width: 332px;
+    }
+}
+
+.add-to-cart-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: hsl(14, 65%, 9%);
+    min-width: 9.375rem;
+    border-radius: 24px;
+    border: 0.4px solid hsl(14, 65%, 9%);
+    padding: 0.625rem 0.75rem;
+
+    position: absolute;
+    bottom: -16px;
+    left: 53px;
+    cursor: pointer;
+    transition: color 0.15ms, border 0.15ms;
+}
+
+.add-to-cart-btn:hover{
+    color: hsl(14, 86%, 42%);
+    border: 1px solid hsl(14, 86%, 42%);
+}
+
+@media (max-width: 37.5rem) {
+    .add-to-cart-btn{
+        min-width: 50%;
+        left: 25%;
+    }
+}
+
+.cart-icon{
+    width: 1.125rem;
+}
+
+.product-description{
+    margin-top: 1.875rem;
+}
+
+.product-category{
+    font-size: 0.875rem;
+    color: hsl(12, 20%, 44%);
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 37.5rem) {
+    .product-category{
+        margin-bottom: 0.3rem;
+    }
+}
+
+.product-name{
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 37.5rem) {
+    .product-name{
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+    }
+}
+
+.product-price{
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: hsl(14, 86%, 42%);
+}
+
+.new-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    min-width: 9.375rem;
+    min-height: 1.25rem;
+    border-radius: 24px;
+    background-color: hsl(14, 86%, 42%);
+    border: none;
+    padding: 0.625rem 0.75rem;
+}
+
+.active{
+    border: 2px solid hsl(14, 86%, 42%);
+}
+
+@media (max-width: 37.5rem) {
+    .new-button{
+        min-width: 50%;
+        left: 25%;
+        gap: 2rem;
+    }
+}
+
+/*.icon{
+    border: 1px solid gray;
+    font-size: 16px;
+    color: white;
+}*/
+
+.cart{
+    font-size: 0.875rem;
+    color: white;
+}
+
+.plus-icon-image{
+    max-width: 0.5rem;
+    padding: 0.25rem;
+    border-radius: 12px;
+    border: 1.5px solid rgb(235, 234, 234);
+    cursor: pointer;
+}
+
+.minus-icon-image{
+    max-width: 0.5rem;
+    min-height: 0.5rem;
+    padding: 0.25rem;
+    border-radius: 12px;
+    border: 1.5px solid rgb(235, 234, 234);
+    cursor: pointer;
+}
+
+.overlay{
+    display: none;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1;
+}
