@@ -174,7 +174,7 @@ export function itemsInCart() {
                 ${orderSummary}
             </div>
             <div class="total-order">
-                <p>
+                <p class="order-label">
                     Order Total
                 </p>
                 <p class="cart-total">

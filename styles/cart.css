@@ -167,11 +167,11 @@ h1, h4, p{
     margin-bottom: 0.75rem;
 }
 
-@media (max-width: 37.5rem) {
+/*@media (max-width: 37.5rem) {
     .total-order p{
         font-size: 0.875rem;
     }
-}
+}*/
 
 .order-label{
     font-size: 1rem;
@@ -184,10 +184,6 @@ h1, h4, p{
     }
 }
 
-/*.total-order p{
-    color: hsl(14, 65%, 9%);
-}*/
-
 .cart-total{
     font-size: 1.5rem;
     font-weight: 700;
@@ -196,7 +192,7 @@ h1, h4, p{
 
 @media (max-width: 37.5rem) {
     .cart-total{
-        font-size: 1.25rem;
+        font-size: 1.125rem;
     }
 }
 
@@ -257,6 +253,30 @@ h1, h4, p{
         top: 2%;
         left: 5%;
         z-index: 100;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 375px) {
+    .confirmed-order-container{
+        min-width: 300px;
+        top: 2%;
+        left: -3.3%;
+    }
+}
+
+@media (min-width: 376px) and (max-width: 414px) {
+    .confirmed-order-container{
+        min-width: 337px;
+        top: 2%;
+        left: -3%;
+    }
+}
+
+@media (min-width: 415px) {
+    .confirmed-order-container{
+        min-width: 344px;
+        top: 2%;
+        left: -1.5%;
     }
 }
 
