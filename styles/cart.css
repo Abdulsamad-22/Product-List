@@ -7,6 +7,11 @@ h1, h4, p{
     margin-bottom: 0px;
 }
 
+@media (hover:hover) {
+    .confirm-cta:hover, .new-order-cta:hover{
+        background-color: hsl(14, 84%, 24%);
+    }
+}
 
 .cart-card{
     min-width: 25rem;
@@ -229,9 +234,9 @@ h1, h4, p{
     cursor: pointer;
 }
 
-.confirm-cta:hover{
+/*.confirm-cta:hover{
     background-color: hsl(14, 84%, 24%);
-}
+}*/
 
 /* Styles for when order is confirmed */
 
@@ -258,25 +263,25 @@ h1, h4, p{
 
 @media (min-width: 320px) and (max-width: 375px) {
     .confirmed-order-container{
-        min-width: 300px;
+        min-width: 100%;
         top: 2%;
-        left: -3.3%;
+        left: -7.5%;
     }
 }
 
 @media (min-width: 376px) and (max-width: 414px) {
     .confirmed-order-container{
-        min-width: 337px;
+        min-width: 100%;
         top: 2%;
-        left: -3%;
+        left: -7%;
     }
 }
-
-@media (min-width: 415px) {
+/* changed width and left position 383 -1.5 */
+@media (min-width: 415px) and (max-width: 37.5rem){
     .confirmed-order-container{
-        min-width: 344px;
+        min-width: 100%;
         top: 2%;
-        left: -1.5%;
+        left: -5.7%;
     }
 }
 
@@ -335,7 +340,7 @@ h1, h4, p{
 .order-item-divider{
     display: flex;
     flex-direction: column;
-    max-width: 28.125rem;
+    /*max-width: 28.125rem;*/
     margin-top: 0.75rem;
     margin-bottom: 0.75rem;
     /*background-color: hsl(13, 31%, 94%);*/
@@ -431,6 +436,6 @@ h1, h4, p{
     cursor: pointer;
 }
 
-.new-order-cta:hover{
+/*.new-order-cta:hover{
     background-color: hsl(14, 84%, 24%);
-}
+}*/
