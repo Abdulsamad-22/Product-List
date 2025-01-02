@@ -377,7 +377,7 @@ h1, h4, p{
 
 @media (max-width: 37.5rem) {
     .order-item-name{
-        font-size: 0.75rem;
+        font-size: 0.875rem;
     }
 }
 
@@ -388,7 +388,7 @@ h1, h4, p{
 
 @media (max-width: 37.5rem) {
     .order-qty{
-        font-size: 0.75rem;
+        font-size: 0.875rem;
     }
 }
 
@@ -398,7 +398,7 @@ h1, h4, p{
 
 @media (max-width: 37.5rem) {
     .order-price{
-        font-size: 0.75rem;
+        font-size: 0.875rem;
     }
 }
 
